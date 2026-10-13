@@ -27,7 +27,9 @@ class Note;
 
 class CustomTuning {
 public:
-    CustomTuning() {}
+    // score-reader: copy a default tuning built once, instead of parsing the default scale and keyboard mapping
+    // text for every ScoreDef (one per measure during layout).
+    CustomTuning() : m_tuning(DefaultTuning()) {}
     CustomTuning(const std::string &tuningDef, Doc *doc, bool useMusicXmlAccidentals);
 
     /**
@@ -63,6 +65,12 @@ public:
     static void CopyCustomTunings(const Doc *src, Doc *dst);
 
 private:
+    static const Tunings::Tuning &DefaultTuning()
+    {
+        static const Tunings::Tuning tuning;
+        return tuning;
+    }
+
     /**
      * @name Helpers to create various needed mappings.
      */
