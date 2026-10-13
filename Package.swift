@@ -36,7 +36,7 @@ let package = Package(
                 .headerSearchPath("include/zip"),
                 .headerSearchPath("libmei/dist"),
                 .headerSearchPath("libmei/addons"),
-                .unsafeFlags(["-std=c++23"])
+                .unsafeFlags(["-std=c++23", "-O2"])  // optimise even in Debug; unoptimised layout is ~10x slower
             ]
         ),
         .target(
