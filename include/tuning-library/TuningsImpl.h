@@ -69,7 +69,10 @@ inline double locale_atof(const char *s)
 {
     double result = 0;
     std::istringstream istr(s);
-    istr.imbue(std::locale("C"));
+    // score-reader: construct the "C" locale once. Building a named locale per call is very slow on iOS
+    // (each one formats dates and checks the time zone), and Verovio parses a tuning for every ScoreDef.
+    static const std::locale cLocale("C");
+    istr.imbue(cLocale);
     istr >> result;
     return result;
 }
